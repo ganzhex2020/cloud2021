@@ -7,9 +7,9 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
-    inetutils:
-      preferred-networks: 10.6.135
+        server-addr: 127.0.0.1:8848
+#    inetutils:
+#      preferred-networks: 10.6.135
 
 #消费者将要去访问的微服务名称(注册成功进nacos的微服务提供者)
 service-url:

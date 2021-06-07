@@ -55,6 +55,7 @@
     </dependencies>
 
     <build>
+        <finalName>server7002</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

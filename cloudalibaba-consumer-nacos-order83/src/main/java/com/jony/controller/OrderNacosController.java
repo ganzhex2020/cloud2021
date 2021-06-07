@@ -36,7 +36,7 @@ public class OrderNacosController {
         List<ServiceInstance> list = this.discoveryClient.getInstances("nacos-payment-provider");
         log.info(""+list);
 
-        return restTemplate.getForObject("http://nacos-payment-provider"+"/payment/nacos/"+id,String.class);
+        return restTemplate.getForObject(serverURL+"/payment/nacos/"+id,String.class);
     }
 
 }

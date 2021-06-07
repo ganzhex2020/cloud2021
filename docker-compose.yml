@@ -1,0 +1,71 @@
+version: '3'  #compose 文件版本（1.2.x+  用3即可）
+services:
+
+  payment8002:
+    build: #启动服务时先将build命令中指定的Dockerfile打包成image,再运行该镜像
+      context: cloud-provider-payment8001      #指定上下文目录Dockerfile所在目录
+      dockerfile: Dockerfile            #DockerFile名称
+    #  working_dir: /app                   # 设置工作目录为容器内的app文件夹
+    #    environment:
+    #      TZ: Asia/Shanghai
+    #    volumes:                            # 挂载文件
+    #      - ./logs8002:/app/log                # 映射容器产生的日志到主机的logs文件夹
+    container_name: payment8002
+    ports: # 映射端口
+      - 8002:8002
+    #image: payment8002
+    depends_on:
+      - server7001
+      - server7002
+
+  payment8003:
+    #  image: payment8003:1.0
+
+    #   restart: always                     # 重启策略: 容器退出时总是重启容器
+    build:
+      context: cloud-provider-payment8003             # dockerfile的上一级目录
+      dockerfile: Dockerfile             #DockerFile名称
+    # working_dir: /app                   # 设置工作目录为容器内的app文件夹
+    #    environment:
+    #      TZ: Asia/Shanghai
+    #    volumes: # 挂载文件
+    #      - ./logs8003/log:/app/log                # 映射容器产生的日志到主机的logs文件夹
+    container_name: payment8003
+    ports: # 映射端口
+      - 8003:8003
+    depends_on:
+      - server7001
+      - server7002
+    #image: payment8003
+
+
+#    depends_on:      #需要的其他容器redis，会先启动redis再启动此容器
+#      - redis
+#  redis:
+#    #image: 需要编排的镜像 默认从本地服务器寻找 ，未找到则从dokcerhub中寻找
+#    image: "redis"
+  server7001:
+    build: #启动服务时先将build命令中指定的Dockerfile打包成image,再运行该镜像
+      context: cloud-eureka-server7001    #指定上下文目录Dockerfile所在目录
+      dockerfile: Dockerfile            #DockerFile名称
+
+    container_name: eureka01
+    ports: # 映射端口
+      - 7001:7001
+
+  server7002:
+    build: #启动服务时先将build命令中指定的Dockerfile打包成image,再运行该镜像
+      context: cloud-eureka-server7002    #指定上下文目录Dockerfile所在目录
+      dockerfile: Dockerfile            #DockerFile名称
+
+    container_name: eureka02
+    ports: # 映射端口
+      - 7002:7002
+  order80:
+    build: #启动服务时先将build命令中指定的Dockerfile打包成image,再运行该镜像
+      context: cloud-sonsumer-order80    #指定上下文目录Dockerfile所在目录
+      dockerfile: Dockerfile            #DockerFile名称
+
+    container_name: order80
+    ports: # 映射端口
+      - 80:80

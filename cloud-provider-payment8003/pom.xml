@@ -88,6 +88,7 @@
     </dependencies>
 
     <build>
+        <finalName>payment8003</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

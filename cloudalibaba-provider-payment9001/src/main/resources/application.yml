@@ -8,8 +8,7 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848 #配置Nacos地址
-#    inetutils:
-#      preferred-networks: 10.6.135
+
 
 management:
   endpoints:
