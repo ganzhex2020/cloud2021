@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848 #配置Nacos地址
+        server-addr: 10.6.135.6:8080 #配置Nacos地址
 
 
 management:
@@ -15,3 +15,7 @@ management:
     web:
       exposure:
         include: '*'
+#logging:
+#  file:
+#    path: /app/log/
+#    name: payment9001.log

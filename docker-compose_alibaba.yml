@@ -1,0 +1,88 @@
+version: '3'  #compose 文件版本（1.2.x+  用3即可）
+services:
+  mysql_nacos:
+    container_name: mysql_nacos
+    image: nacos/nacos-mysql:8.0.16
+    env_file:
+      - /Users/jony/volumes/env/mysql_nacos.env
+    volumes:
+      - /Users/jony/volumes/mysql_nacos:/var/lib/mysql
+    ports:
+      - "3307:3306"
+  nacos1:
+    image: nacos/nacos-server:2.0.1
+    container_name: nacos1
+    env_file:
+      #- /Users/jony/volumes/env/nacos_standlone-mysql.env
+      - /Users/jony/volumes/env/nacos-hostname.env
+    volumes:
+      - ./nacos1-logs/:/home/nacos/logs
+      - /Users/jony/Git_Repo/nacos-docker-master/build/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8848:8848"
+    depends_on:
+      - mysql_nacos
+    restart: on-failure
+  nacos2:
+    image: nacos/nacos-server:2.0.1
+    container_name: nacos2
+    env_file:
+      - /Users/jony/volumes/env/nacos-hostname.env
+    volumes:
+      - ./nacos2-logs/:/home/nacos/logs
+      - /Users/jony/Git_Repo/nacos-docker-master/build/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8849:8848"
+    depends_on:
+      - mysql_nacos
+    restart: on-failure
+  nacos3:
+    image: nacos/nacos-server:2.0.1
+    container_name: nacos3
+    env_file:
+      - /Users/jony/volumes/env/nacos-hostname.env
+    volumes:
+      - ./nacos3-logs/:/home/nacos/logs
+      - /Users/jony/Git_Repo/nacos-docker-master/build/init.d/custom.properties:/home/nacos/init.d/custom.properties
+    ports:
+      - "8850:8848"
+    depends_on:
+      - mysql_nacos
+    restart: on-failure
+
+#  payment9001:
+#    build: #启动服务时先将build命令中指定的Dockerfile打包成image,再运行该镜像
+#      context: cloudalibaba-provider-payment9001      #指定上下文目录Dockerfile所在目录
+#      dockerfile: Dockerfile            #DockerFile名称
+#    #  working_dir: /app                   # 设置工作目录为容器内的app文件夹
+#    #    environment:
+#    #      TZ: Asia/Shanghai
+##    volumes:                            # 挂载文件
+##      - ./logs9001:/app/log                # 映射容器产生的日志到主机的logs文件夹
+#
+#    container_name: payment9001
+#    ports: # 映射端口
+#      - 9001:9001
+#    depends_on:
+#      - nacos1
+#    restart: always
+#
+#  prometheus:
+#    container_name: prometheus
+#    image: prom/prometheus:latest
+#    #      volumes:
+#    #        - ./prometheus/prometheus-standalone.yaml:/etc/prometheus/prometheus.yml
+#    ports:
+#      - "9090:9090"
+#    depends_on:
+#      - nacos1
+#    restart: on-failure
+#  grafana:
+#    container_name: grafana
+#    image: grafana/grafana:latest
+#    ports:
+#      - 3000:3000
+#    restart: on-failure
+
+
+
